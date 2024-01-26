@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	time2 "time"
 )
 
 func main() {
-	// Here we see always same combination, that is connected to seed
-	// So we need to update seed
-	rand.Seed(100)
+	// This way seed gets updated each time we call main
+	// So we get different result each time
+	time := time2.Now()
+	rand.Seed(time.UnixNano())
 
 	guess := 10
 
