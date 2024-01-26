@@ -3,20 +3,46 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	time2 "time"
+	"os"
+	"strconv"
 )
 
+const maxTurn = 10
+
 func main() {
-	// This way seed gets updated each time we call main
-	// So we get different result each time
-	time := time2.Now()
-	rand.Seed(time.UnixNano())
 
-	guess := 10
+	// To run the application, type : go run randomization.go <Some Number>
 
-	for n := 0; n != guess; {
-		n = rand.Intn(guess + 1)
-		fmt.Printf("%d ", n)
+	arguments := os.Args
+
+	// Here we check initial guess if provided
+	if len(arguments) != 2 {
+		fmt.Println("Initial guess value is not provided")
+		return
 	}
-	fmt.Println()
+
+	// Here we check if initial guess is negative
+	initialGuess, err := strconv.Atoi(arguments[1])
+
+	if initialGuess < 0 {
+		fmt.Println("Initial guess value should not be negative")
+		return
+	}
+
+	// if there was some other error
+	if err != nil {
+		fmt.Printf("There was some error -> %v\n", err)
+		return
+	}
+
+	for i := 0; i <= maxTurn; i++ {
+		n := rand.Intn(initialGuess + 1)
+
+		if n == initialGuess {
+			fmt.Printf("You are Winner!!! Number of turns %d\n", i+1)
+			return
+		}
+	}
+	fmt.Println("You are Loser!!!!")
+
 }
